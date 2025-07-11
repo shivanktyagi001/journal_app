@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 class JournalModel{
   String title;
   String des;
