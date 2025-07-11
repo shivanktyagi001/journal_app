@@ -1,11 +1,13 @@
 
 class JournalModel{
+  String id;
   String title;
   String des;
   DateTime datetime;
   String tag;
   String mood;
   JournalModel({
+    required this.id,
      required this.title,
     required this.des,
     required this.datetime,
@@ -14,6 +16,7 @@ class JournalModel{
 });
   Map<String,dynamic> tomap(){
     return {
+       'id':id,
       'title':title,
       'des':des,
       'datetime':datetime,
@@ -22,7 +25,7 @@ class JournalModel{
     };
   }
   factory JournalModel.frommap(Map<String,dynamic>mp){
-    return JournalModel(title:mp['title'] ,
+    return JournalModel(id:mp['id'],title:mp['title'] ,
         des: mp['des'], datetime: mp['datetime'], mood: mp['mood'], tag: mp['tag']);
   }
 }
