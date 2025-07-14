@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:journal_app/Screens/register_screen.dart';
+import 'package:journal_app/Screens/login_screen.dart';
 import 'package:journal_app/Screens/dashboard_screen.dart';
 import 'package:journal_app/provider/myauth_provider.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _isLoading = false;
@@ -41,12 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    "Welcome Back",
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.teal[700]),
-                  ),
+                  Text("Create Account", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.teal[700])),
                   SizedBox(height: 16),
-                  Text("Login to your journal", style: TextStyle(fontSize: 16, color: Colors.grey[600])),
+                  Text("Register to start journaling", style: TextStyle(fontSize: 16, color: Colors.grey[600])),
                   SizedBox(height: 32),
                   TextField(
                     controller: emailController,
@@ -70,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: _isLoading ? null : _handleLogin,
+                      onPressed: _isLoading ? null : _handleRegister,
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 14),
                         backgroundColor: Colors.teal,
@@ -78,15 +75,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: _isLoading
                           ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                          : Text("Sign In", style: TextStyle(fontSize: 16, color: Colors.white)),
+                          : Text("Register", style: TextStyle(fontSize: 16, color: Colors.white)),
                     ),
                   ),
                   SizedBox(height: 16),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => RegisterScreen()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
                     },
-                    child: Text("Don't have an account? Register", style: TextStyle(color: Colors.teal)),
+                    child: Text("Already have an account? Sign In", style: TextStyle(color: Colors.teal)),
                   )
                 ],
               ),
@@ -97,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> _handleLogin() async {
+  Future<void> _handleRegister() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
@@ -111,12 +108,12 @@ class _LoginScreenState extends State<LoginScreen> {
     final authProvider = Provider.of<MyAuthProvider>(context, listen: false);
 
     try {
-      await authProvider.login(email, password);
+      await authProvider.register(email, password);
 
       if (authProvider.user != null) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => DashboardScreen()));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login Failed")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Registration Failed")));
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));

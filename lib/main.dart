@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:journal_app/Screens/dashboard_screen.dart';
 import 'package:journal_app/Screens/login_Screen.dart';
+import 'package:journal_app/Screens/register_screen.dart';
+import 'package:journal_app/provider/journal_provider.dart';
 import 'package:journal_app/provider/myauth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,13 +22,14 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
           ChangeNotifierProvider(create: (_) => MyAuthProvider()),
+         ChangeNotifierProvider(create: (_) => JournalProvider()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         ),
-        home:LoginScreen(),
+        home:RegisterScreen(),
       ),
     );
   }

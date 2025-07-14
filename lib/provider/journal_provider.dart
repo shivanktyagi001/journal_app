@@ -71,4 +71,17 @@ class JournalProvider extends ChangeNotifier {
     _journal.removeWhere((j) => j.id == journalId);
     notifyListeners();
   }
+  Stream<List<JournalModel>> journalStream(String uid) {
+    return _ju
+        .collection("users")
+        .doc(uid)
+        .collection("journal")
+        .orderBy("datetime", descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => JournalModel.frommap(doc.data()))
+          .toList();
+    });
+  }
 }

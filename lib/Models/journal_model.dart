@@ -1,4 +1,6 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class JournalModel{
   String id;
   String title;
@@ -24,8 +26,14 @@ class JournalModel{
       'mood':mood,
     };
   }
-  factory JournalModel.frommap(Map<String,dynamic>mp){
-    return JournalModel(id:mp['id'],title:mp['title'] ,
-        des: mp['des'], datetime: mp['datetime'], mood: mp['mood'], tag: mp['tag']);
+  factory JournalModel.frommap(Map<String, dynamic> mp) {
+    return JournalModel(
+      id: mp['id'] ?? '',
+      title: mp['title'] ?? '',
+      des: mp['des'] ?? '',
+      datetime: (mp['datetime'] as Timestamp).toDate(), // ✅ convert Timestamp to DateTime
+      mood: mp['mood'] ?? '',
+      tag: mp['tag'] ?? '',
+    );
   }
 }
